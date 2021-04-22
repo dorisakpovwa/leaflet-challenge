@@ -4,7 +4,7 @@
 //   center: [37.09, -95.71],
 //   zoom: 11
 // });
-const API_KEY = "pk.eyJ1IjoiZG9yaXNha3BvdndhIiwiYSI6ImNrbmdsMjcydDIwMXIydW5zcmkzdmhrNzYifQ.3W6eNrRUwMFB3hmq8KIRkw";
+//const API_KEY = "pk.eyJ1IjoiZG9yaXNha3BvdndhIiwiYSI6ImNrbmdsMjcydDIwMXIydW5zcmkzdmhrNzYifQ.3W6eNrRUwMFB3hmq8KIRkw";
 
 // Assemble API query URL and Store API query variables
 const baseURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
@@ -24,7 +24,7 @@ d3.json(baseURL,function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
 });
-
+// Define a function to colour the earthquake depths by colour 
 function depthcolor(depth) {
   if (depth > 90) return "white"
   else if (depth > 70) return "green"
@@ -33,18 +33,15 @@ function depthcolor(depth) {
   else if (depth > 10) return "orange"
   else return "red"
 }
-
 function createFeatures(earthquakeData) {
-
-  // Define a function we want to run once for each feature in the features array
-  // Give each feature a popup describing the place and time of the earthquake
+// Define a function to run once for each feature in the features array
+// Give each feature a popup describing the place and time of the earthquake
   function onEachFeature(feature, layer) {
     layer.bindPopup("<h3>" + feature.properties.place +
       "</h3><hr><p>" + (feature.properties.mag=" ","magnitude") + feature.geometry.coordinates[2] +"</p>");
   }
-
-  // Create a GeoJSON layer containing the features array on the earthquakeData object
-  // Run the onEachFeature function once for each piece of data in the array
+// Create a GeoJSON layer containing the features array on the earthquakeData object
+// Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
    pointToLayer: function (feature, latlng) {
      return new L.circle(latlng, {
@@ -55,14 +52,11 @@ function createFeatures(earthquakeData) {
    },
    onEachFeature: onEachFeature
   });
-
-  // Sending our earthquakes layer to the createMap function
+// Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
 }
-
 function createMap(earthquakes) {
-
-  // Define streetmap and darkmap layers
+// Define streetmap and darkmap layers
   var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
@@ -107,9 +101,59 @@ function createMap(earthquakes) {
   }).addTo(myMap);
 }
 
+/////////
+// /********************************************************/
+// function createMHIMap(mhiData) {
+//   let options = {
+//     onEachFeature: onEachFeature,
+//     style: onStyle,
+//     filter: onFilter,
+//     valueProperty: "MHI2016", // which property in the features to use
+//     scale: ["red", "blue"], // chroma.js scale - include as many as you like
+//     steps: 15, // number of breaks or steps in range
+//     mode: "q", // q for quantile, e for equidistant, k for k-means
+//   };
+//   let geojsonLayer = L.choropleth(mhiData, options);
+//   geojsonLayer.addTo(myMap);
+//   //console.log(geojsonLayer.options.colors);
+//   console.log(feature.properties.mag);
+//   //console.log(geojsonLayer.options.limits);
+//   console.log(feature.geometry.coordinates[2]);
+//   /*************************************************/
+//   function onFilter(feature) {
+//     if (feature.properties.MHI2016) {
+//       return true;
+//     }
+//     return false;
+//   }
 
-
-
+// /////
+// var legend = L.control({ position: "bottomright" });
+//   legend.onAdd = function () {
+//     var div = L.DomUtil.create("div", "info legend");
+//     var limits = geojsonLayer.options.limits;
+//     var colors = geojsonLayer.options.colors;
+//     var labels = [];
+//     // // Add min & max
+//     var legendInfo = `<h1>Median Income</h1>
+//       <div class="labels">
+//       <div class="min">
+//       ${limits[0]}
+//       </div>
+//       <div class="max">
+//       ${limits[limits.length - 1]}
+//       </div>
+//       </div>`;
+//     legendInfo += "<ul>";
+//     limits.forEach(function (limit, index) {
+//       legendInfo += `<li style="background-color:${colors[index]}"></li>`;
+//     });
+//     legendInfo += "</ul>";
+//     div.innerHTML = legendInfo;
+//     return div;
+//   };
+//   legend.addTo(myMap);
+// }
 
 //vvvvvvvv
 // // Adding tile layer to the map
