@@ -17,11 +17,11 @@ function depthcolor(depth) {
 
   if (depth > 90) return "purple"
   //else if (depth > 90) return "blue"
-  else if (depth > 70) return "green"
-  else if (depth > 50) return "red"
-  else if (depth > 30) return "orange"
-  else if (depth > 10) return "yellow"
-  else return "lightgreen"
+  else if (depth > 70) return "blue"
+  else if (depth > 50) return "green"
+  else if (depth > 30) return "red"
+  else if (depth > 10) return "orange"
+  else return "yellow"
 
 }
 function createFeatures(earthquakeData) {
@@ -46,11 +46,7 @@ function createFeatures(earthquakeData) {
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
 }
-
-
 /////
-
-
 function createMap(earthquakes) {
   // Define streetmap and darkmap layers
   var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -78,10 +74,9 @@ function createMap(earthquakes) {
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
     Earthquakes: earthquakes,
-    TectonicPlate : tectonic
+   // TectonicPlate : tectonic
   };
   
-
   // Create our map, giving it the streetmap and earthquakes layers to display on load
   var myMap = L.map("mapid", {
     center: [
@@ -104,7 +99,7 @@ legend.onAdd = function () {
 
     var div = L.DomUtil.create('div', 'info legend'),
         depth = [-10, 10, 30, 50, 70, 90]
-     //   colors = ["white", "yellow", "orange", "red", "green", "purple"]
+     //   colors = ["yellow", "orange", "red", "green", "blue", "purple"]
 
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < depth.length; i++) {
@@ -119,31 +114,21 @@ legend.onAdd = function () {
 
 legend.addTo(myMap);
 
-var earthquake_url = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
-
-d3.json(earthquake_url, function (quakeData) {
-  L.geoJSON(quakeData, {
-    color: "purple",
-    weight: .8
-  }).addTo(tectonic); 
-tectonic.addTo(myMap);
-})
 }
+// var earthquake_url = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+
+// d3.json(earthquake_url, function (quakeData) {
+//   L.geoJSON(quakeData, {
+//     color: "purple",
+//     weight: .8
+//   }).addTo(tectonic); 
+// tectonic.addTo(myMap);
+// })
 
 
 
 /////////
 // /********************************************************/
-//vvvvvvvv
-// // Adding tile layer to the map
-// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-//   tileSize: 512,
-//   maxZoom: 18,
-//   zoomOffset: -1,
-//   id: "mapbox/streets-v11",
-//   accessToken: API_KEY
-// }).addTo(myMap);
 
   // Create a new marker cluster group
 
@@ -156,26 +141,6 @@ tectonic.addTo(myMap);
       // Add a new marker to the cluster group and bind a pop-up
 
   // Add our marker cluster layer to the map
-
-  //   legend.onAdd = function () {
-//     // depths = data.features.map(d => d.geometry.coordinates[2]);
-//     var div = L.DomUtil.create("div", "info legend");
-//       grades = [0, 10, 20, 50, 100, 500, 1000];
-//       labels =[];
-//   //var colors = ["#69B3A2", "#69B3A2", "#69B3A2", "#69B3A2", "#69B3A2", "#69B3A2", "#69B3A2"]
-//   //var limits = [0, 5, 10, 15, 20, 25, 30, 35]
-//   //var colors = ["white", "yellow", "orange", "red", "green", "blue", "purple"]
-
-//   for (var i = 0; i < grades.length; i++) {
-//     div.innerHTML += "<i style='background: " + getColor(grades[i] + 1) + "'></i> " +
-//       + grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
-//   }
-//   return div;
-// };
-// legend.addTo(myMap);
-
-///////////
-
 
 
 //////////
